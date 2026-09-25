@@ -326,7 +326,7 @@
     c.translate(PHOTO.x + 6, 506);
     c.rotate(-0.06);
     c.fillStyle = th.ink;
-    const sig = val('call', '') || val('first', 'Luna');
+    const sig = val('call', '') || val('first', 'Jesse');
     fitFont(c, sig, 400, F_SCRIPT, 36, 236);
     c.fillText(sig, 0, 0);
     c.restore();
@@ -341,11 +341,11 @@
       c.fillText(value, x, y + 31);
     };
     const X1 = 314, X2 = 604;
-    field('SURNAME / NOM', val('last', 'Stardust').toUpperCase(), X1, 136, 470);
-    field('GIVEN NAMES / PRÉNOMS', val('first', 'Luna').toUpperCase(), X1, 204, 470);
-    field('CALLSIGN / ALIAS', `“${val('call', 'Glitterbomb')}”`, X1, 272, 270, th.stamp);
+    field('SURNAME / NOM', val('last', 'Cassidy').toUpperCase(), X1, 136, 470);
+    field('GIVEN NAMES / PRÉNOMS', val('first', 'Jesse').toUpperCase(), X1, 204, 470);
+    field('CALLSIGN / ALIAS', `“${val('call', 'Dead-Eye')}”`, X1, 272, 270, th.stamp);
     field('RANK / GRADE', data.rank, X2, 272, 320);
-    field('HOME PLANET', val('planet', 'Club Andromeda'), X1, 340, 270);
+    field('HOME PLANET', val('planet', 'Tombstone Station'), X1, 340, 270);
     field('VESSEL', 'THE ARK', X2, 340, 320);
     field('DATE OF ISSUE', data.issued, X1, 408, 270);
     field('EXPIRES', 'NEVER', X2, 408, 320, th.stamp);
@@ -387,7 +387,7 @@
     // MRZ
     c.fillStyle = 'rgba(255,255,255,0.5)';
     c.fillRect(0, 556, CW, CH - 556);
-    const l1 = (`P<ARK${mrzName(val('last', 'Stardust'))}<<${mrzName(val('first', 'Luna'))}`).padEnd(44, '<').slice(0, 44);
+    const l1 = (`P<ARK${mrzName(val('last', 'Cassidy'))}<<${mrzName(val('first', 'Jesse'))}`).padEnd(44, '<').slice(0, 44);
     const num = `ARK${data.number}`;
     const l2 = (`${num}${mrzCheck(num)}ARK${String(now.getFullYear()).slice(2)}0101F${mrzCheck('NEVER')}NEVER<<<<`).padEnd(43, '<').slice(0, 43) + '8';
     c.fillStyle = th.ink;
