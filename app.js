@@ -64,24 +64,23 @@
     return size;
   };
 
-  const F_DISPLAY = '"Unbounded", "Arial Black", sans-serif';
+  const F_DISPLAY = '"Smokum", "Arial Black", sans-serif';
   const F_BODY = '"Space Grotesk", ui-sans-serif, system-ui, sans-serif';
   const F_MONO = '"Space Mono", ui-monospace, Menlo, monospace';
-  const F_SCRIPT = '"Pacifico", "Brush Script MT", cursive';
+  const F_SCRIPT = '"Caveat", "Brush Script MT", cursive';
 
   // ---------- Themes ----------
   const THEMES = [
-    { name: 'Bubblegum', bg: ['#12031f', '#2d0a44', '#4a0d4f'], neb: ['#ff4fb8', '#9b5cff', '#3ad7ff'], accent: '#ff5fc1', accent2: '#9b6bff', card: ['#ffe1f5', '#ecdcff', '#d6f4ff'], ink: '#2b1142', stamp: '#ff2f92', glow: '#ff8fd6', grid: '#ff5fc1' },
-    { name: 'Lilac Haze', bg: ['#0a0620', '#22154f', '#3a1a5e'], neb: ['#b388ff', '#ff9de2', '#7ee8fa'], accent: '#c49bff', accent2: '#ff9de2', card: ['#f0e6ff', '#ffe4f6', '#e2f3ff'], ink: '#24124a', stamp: '#8f4dff', glow: '#cfa9ff', grid: '#b388ff' },
-    { name: 'Cyber Mint', bg: ['#020d14', '#062a36', '#15173f'], neb: ['#3dffc5', '#ff5fd2', '#5a8bff'], accent: '#3ff5c9', accent2: '#ff6ad5', card: ['#dcfff4', '#f4e4ff', '#dcecff'], ink: '#0f2a33', stamp: '#ff2fa8', glow: '#7fffe0', grid: '#3ff5c9' },
-    { name: 'Sunset Rave', bg: ['#1a0510', '#3d0c2e', '#5a1633'], neb: ['#ff7a59', '#ff4fa3', '#ffd166'], accent: '#ff7eb0', accent2: '#ffb35c', card: ['#fff0e2', '#ffe2f0', '#fff6cf'], ink: '#3a0f22', stamp: '#ff3d6e', glow: '#ffb199', grid: '#ff7eb0' },
+    { name: 'Bone', bg: ['#0d0d0e', '#1a1a1c', '#26262a'], neb: ['#e8e8e8', '#9a9a9a', '#5c5c5c'], accent: '#f2f0ea', accent2: '#9a9a9a', card: ['#efece3', '#e6e2d6', '#dcd7c8'], ink: '#141311', stamp: '#2e2c28', glow: '#ffffff', grid: '#bfbfbf' },
+    { name: 'Ash', bg: ['#131315', '#26262b', '#3a3a41'], neb: ['#d6d6d6', '#8a8a8a', '#4c4c4c'], accent: '#ededed', accent2: '#8a8a8a', card: ['#e8e5db', '#dedbcd', '#d2cfc0'], ink: '#191713', stamp: '#3b3833', glow: '#ffffff', grid: '#a6a6a6' },
+    { name: 'Eclipse', bg: ['#000000', '#0b0b10', '#14141c'], neb: ['#ffffff', '#a8a8b0', '#4a4a52'], accent: '#ffffff', accent2: '#a8a8b0', card: ['#f1eee6', '#e9e5d9', '#ded9c9'], ink: '#0d0c0a', stamp: '#22201c', glow: '#ffffff', grid: '#d6d6d6' },
   ];
   let th = THEMES[0];
 
   // ---------- Passport data ----------
-  const RANKS = ['Glitter Gunner', 'Stardust Deckhand', 'Nebula Navigator', 'Captain of Vibes', 'Bass Boatswain', 'Laser Quartermaster', 'First Mate of Mischief', 'Comet Cannoneer', 'Rave Rigger', 'Treasure Keeper', 'Starlight Stowaway'];
-  const PLANETS = ['Club Andromeda', 'Planet Bubblegum', 'Nebula Nine', 'Saturn’s Rings', 'Moon Base Luv', 'Glitterfall IV', 'Neon Venus', 'Crystal Caverns', 'Cyclone Station', 'The Void (VIP)'];
-  const CALLSIGNS = ['Glitterbomb', 'Starbby', 'Cosmic Kitty', 'Pixie Dust', 'Laser Lash', 'Moonbeam', 'Honey Comet', 'Stardoll', 'Blaster Babe', 'Nebby', 'Sparkle Siren', 'Space Cadet'];
+  const RANKS = ['Galactic Marshal', 'Dust Devil Deputy', 'Star Sheriff', 'Bounty Rider', 'Cactus Corsair', 'Moonshine Smuggler', 'Frontier Ranger', 'Desert Drifter', 'Saloon Sharpshooter', 'Comet Wrangler', 'Lone Star Outlaw'];
+  const PLANETS = ['Tombstone Station', 'New Dodge City', 'Dry Gulch IX', 'The O.K. Nebula', 'Bandit’s Rest', 'Cactus Flats', 'Red Mesa Prime', 'Silver Spur Colony', 'Lonesome Rock', 'The Void Saloon'];
+  const CALLSIGNS = ['Six-Shooter', 'Dust Devil', 'Lone Star', 'Rattlesnake', 'Moonshine', 'Tumbleweed', 'Dead-Eye', 'Cactus Jack', 'Spurs', 'Bandit', 'Coyote', 'Rawhide'];
   const MONTHS = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
 
   const now = new Date();
@@ -99,7 +98,7 @@
 
   // ---------- Photo ----------
   const PHOTO = { x: 36, y: 126, w: 246, h: 312, r: 26 };
-  const photo = { src: null, processed: null, zoom: 1, ox: 0, oy: 0, style: 'natural' };
+  const photo = { src: null, processed: null, zoom: 1, ox: 0, oy: 0, style: 'silver' };
 
   const processPhoto = () => {
     if (!photo.src) { photo.processed = null; return; }
@@ -110,38 +109,27 @@
     c.width = w; c.height = h;
     const x = c.getContext('2d', { willReadFrequently: true });
     x.drawImage(s, 0, 0, w, h);
-    if (photo.style !== 'natural') {
+    // every style is black & white - silver (clean), noon (hard contrast + grain), daguerreotype (soft + grain + vignette)
+    {
       const id = x.getImageData(0, 0, w, h), d = id.data;
-      const ink = hex(th.ink), light = hex(th.card[0]), acc = hex(th.accent);
       for (let i = 0; i < d.length; i += 4) {
-        const r = d[i], g = d[i + 1], b = d[i + 2];
-        if (photo.style === 'duotone') {
-          let l = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
-          l = clamp01((l - 0.5) * 1.15 + 0.52);
-          const m = l < 0.5 ? l * 2 : (l - 0.5) * 2;
-          const a = l < 0.5 ? ink : acc, bb = l < 0.5 ? acc : light;
-          d[i] = a[0] + (bb[0] - a[0]) * m;
-          d[i + 1] = a[1] + (bb[1] - a[1]) * m;
-          d[i + 2] = a[2] + (bb[2] - a[2]) * m;
-        } else {
-          // dreamy: lifted shadows, soft contrast, pink cast
-          d[i] = Math.min(255, 22 + r * 0.9 + acc[0] * 0.08);
-          d[i + 1] = Math.min(255, 14 + g * 0.86 + acc[1] * 0.06);
-          d[i + 2] = Math.min(255, 26 + b * 0.88 + acc[2] * 0.1);
+        let l = 0.299 * d[i] + 0.587 * d[i + 1] + 0.114 * d[i + 2];
+        if (photo.style === 'noon') {
+          l = clamp01((l / 255 - 0.5) * 1.5 + 0.5) * 255;
+          l += (Math.random() - 0.5) * 22;
+        } else if (photo.style === 'daguerreotype') {
+          l = clamp01((l / 255 - 0.5) * 0.85 + 0.52) * 255;
+          l += (Math.random() - 0.5) * 28;
         }
+        d[i] = d[i + 1] = d[i + 2] = Math.max(0, Math.min(255, l));
       }
       x.putImageData(id, 0, 0);
-      if (photo.style === 'dreamy') {
-        // cheap bloom: downscale + upscale, screen on top
-        const s2 = document.createElement('canvas');
-        s2.width = Math.max(1, w >> 4); s2.height = Math.max(1, h >> 4);
-        s2.getContext('2d').drawImage(c, 0, 0, s2.width, s2.height);
-        x.globalCompositeOperation = 'screen';
-        x.globalAlpha = 0.35;
-        x.imageSmoothingQuality = 'high';
-        x.drawImage(s2, 0, 0, w, h);
-        x.globalAlpha = 1;
-        x.globalCompositeOperation = 'source-over';
+      if (photo.style === 'daguerreotype') {
+        const vg = x.createRadialGradient(w / 2, h / 2, Math.min(w, h) * 0.32, w / 2, h / 2, Math.max(w, h) * 0.75);
+        vg.addColorStop(0, 'rgba(0,0,0,0)');
+        vg.addColorStop(1, 'rgba(0,0,0,0.5)');
+        x.fillStyle = vg;
+        x.fillRect(0, 0, w, h);
       }
     }
     photo.processed = c;
@@ -180,20 +168,18 @@
     c.ellipse(0, -6, 40, 36, 0, 0, Math.PI * 2);
     c.fill(); c.stroke();
     rrect(c, -22, 18, 44, 24, 10); c.fill(); c.stroke();
-    // heart eyes
+    // star eyes
     c.fillStyle = th.stamp;
-    c.beginPath(); heartPath(c, -15, -4, 17); heartPath(c, 15, -4, 17); c.fill();
+    c.beginPath(); sparklePath(c, -15, -4, 12, 0.35); sparklePath(c, 15, -4, 12, 0.35); c.fill();
     // nose + teeth
     c.fillStyle = th.ink;
     c.beginPath(); c.moveTo(0, 8); c.lineTo(-4, 15); c.lineTo(4, 15); c.closePath(); c.fill();
     c.lineWidth = 3;
     c.beginPath(); for (const tx of [-9, 0, 9]) { c.moveTo(tx, 24); c.lineTo(tx, 36); } c.stroke();
-    // bow
-    c.fillStyle = th.accent;
-    c.lineWidth = 4;
-    c.beginPath(); c.moveTo(18, -38); c.lineTo(46, -56); c.lineTo(48, -24); c.closePath(); c.fill(); c.stroke();
-    c.beginPath(); c.moveTo(18, -38); c.lineTo(-6, -58); c.lineTo(-10, -26); c.closePath(); c.fill(); c.stroke();
-    c.beginPath(); c.arc(18, -38, 8, 0, 6.3); c.fill(); c.stroke();
+    // cowboy hat
+    c.fillStyle = '#fff';
+    c.beginPath(); c.ellipse(0, -40, 46, 10, 0, 0, 6.3); c.fill(); c.stroke();
+    rrect(c, -22, -70, 44, 30, 8); c.fill(); c.stroke();
     c.restore();
   };
 
@@ -212,7 +198,7 @@
     c.font = `700 13px ${F_MONO}`;
     c.textAlign = 'center';
     c.textBaseline = 'middle';
-    const ring = '✦ ARK CUSTOMS ✦ RAVE READY ✦ ARK CUSTOMS ✦ RAVE READY ';
+    const ring = '✦ ARK TERRITORY ✦ FRONTIER JUSTICE ✦ ARK TERRITORY ✦ FRONTIER JUSTICE ';
     const chars = [...ring];
     chars.forEach((ch, i) => {
       const a = (i / chars.length) * Math.PI * 2 - Math.PI / 2;
@@ -222,8 +208,8 @@
       c.restore();
     });
     c.font = `900 17px ${F_DISPLAY}`;
-    c.fillText('APPROVED', 0, -4);
-    c.beginPath(); heartPath(c, 0, 18, 13); c.fill();
+    c.fillText('DEPUTIZED', 0, -4);
+    c.beginPath(); sparklePath(c, 0, 18, 11, 0.35); c.fill();
     c.restore();
     c.globalAlpha = 1;
   };
@@ -340,7 +326,7 @@
     c.translate(PHOTO.x + 6, 506);
     c.rotate(-0.06);
     c.fillStyle = th.ink;
-    const sig = val('call', '') || val('first', 'Luna');
+    const sig = val('call', '') || val('first', 'Jesse');
     fitFont(c, sig, 400, F_SCRIPT, 36, 236);
     c.fillText(sig, 0, 0);
     c.restore();
@@ -355,14 +341,14 @@
       c.fillText(value, x, y + 31);
     };
     const X1 = 314, X2 = 604;
-    field('SURNAME / NOM', val('last', 'Stardust').toUpperCase(), X1, 136, 470);
-    field('GIVEN NAMES / PRÉNOMS', val('first', 'Luna').toUpperCase(), X1, 204, 470);
-    field('CALLSIGN / ALIAS', `“${val('call', 'Glitterbomb')}”`, X1, 272, 270, th.stamp);
+    field('SURNAME / NOM', val('last', 'Cassidy').toUpperCase(), X1, 136, 470);
+    field('GIVEN NAMES / PRÉNOMS', val('first', 'Jesse').toUpperCase(), X1, 204, 470);
+    field('CALLSIGN / ALIAS', `“${val('call', 'Dead-Eye')}”`, X1, 272, 270, th.stamp);
     field('RANK / GRADE', data.rank, X2, 272, 320);
-    field('HOME PLANET', val('planet', 'Club Andromeda'), X1, 340, 270);
+    field('HOME PLANET', val('planet', 'Tombstone Station'), X1, 340, 270);
     field('VESSEL', 'THE ARK', X2, 340, 320);
     field('DATE OF ISSUE', data.issued, X1, 408, 270);
-    field('EXPIRES', 'NEVER ♡', X2, 408, 320, th.stamp);
+    field('EXPIRES', 'NEVER', X2, 408, 320, th.stamp);
 
     // ghost photo
     if (photo.processed) {
@@ -391,7 +377,7 @@
     rrect(c, -box.w / 2, -box.h / 2, box.w, box.h, 10); c.stroke();
     c.font = `900 15px ${F_DISPLAY}`;
     c.textAlign = 'center';
-    c.fillText('ENTRY ✦ SATURN', 0, -2);
+    c.fillText('DEPUTY ✦ SATURN', 0, -2);
     c.font = `700 11px ${F_MONO}`;
     c.fillText(data.issued, 0, 17);
     c.restore();
@@ -401,7 +387,7 @@
     // MRZ
     c.fillStyle = 'rgba(255,255,255,0.5)';
     c.fillRect(0, 556, CW, CH - 556);
-    const l1 = (`P<ARK${mrzName(val('last', 'Stardust'))}<<${mrzName(val('first', 'Luna'))}`).padEnd(44, '<').slice(0, 44);
+    const l1 = (`P<ARK${mrzName(val('last', 'Cassidy'))}<<${mrzName(val('first', 'Jesse'))}`).padEnd(44, '<').slice(0, 44);
     const num = `ARK${data.number}`;
     const l2 = (`${num}${mrzCheck(num)}ARK${String(now.getFullYear()).slice(2)}0101F${mrzCheck('NEVER')}NEVER<<<<`).padEnd(43, '<').slice(0, 43) + '8';
     c.fillStyle = th.ink;
@@ -438,7 +424,7 @@
         vy: fromCard ? Math.sin(ang) * rand(80, 260) - 60 : rand(-140, -60),
         s: rand(10, burst ? 30 : 22),
         rot: rand(0, 6.28), vr: rand(-2, 2),
-        type: Math.random() < 0.38 ? 'heart' : Math.random() < 0.5 ? 'dot' : 'spark',
+        type: Math.random() < 0.38 ? 'star' : Math.random() < 0.5 ? 'dot' : 'spark',
         col: pick([th.accent, th.accent2, '#ffffff', th.neb[2]]),
         life: 0, max: rand(2.2, 4.2),
       });
@@ -456,6 +442,15 @@
     g.addColorStop(0, th.bg[0]); g.addColorStop(0.55, th.bg[1]); g.addColorStop(1, th.bg[2]);
     x.fillStyle = g;
     x.fillRect(0, 0, W, H);
+    // western horizon: mesa silhouettes behind the grid
+    x.fillStyle = 'rgba(0,0,0,0.55)';
+    x.beginPath();
+    x.moveTo(0, 1440);
+    const mesa = [[0, 1412], [84, 1412], [116, 1384], [212, 1384], [240, 1412], [332, 1412], [366, 1424], [472, 1424], [504, 1392], [562, 1392], [588, 1424], [696, 1424], [728, 1414], [756, 1372], [862, 1372], [892, 1414], [976, 1414], [1008, 1430], [1080, 1430]];
+    for (const [mx, my] of mesa) x.lineTo(mx, my);
+    x.lineTo(W, 1440);
+    x.closePath();
+    x.fill();
     bgCache = c; bgTheme = th;
     return c;
   };
@@ -512,7 +507,7 @@
     ctx.rotate(p.rot);
     ctx.fillStyle = p.col;
     ctx.beginPath();
-    if (p.type === 'heart') heartPath(ctx, 0, 0, p.s);
+    if (p.type === 'star') sparklePath(ctx, 0, 0, p.s, 0.35);
     else if (p.type === 'spark') sparklePath(ctx, 0, 0, p.s);
     else ctx.arc(0, 0, p.s * 0.22, 0, 6.3);
     ctx.fill();
@@ -530,7 +525,7 @@
   neb.width = W / NEB_K; neb.height = H / NEB_K;
   const nctx = neb.getContext('2d');
   const sprite = { card: null, title: null, pill: null };
-  const PILL_TEXT = 'CLEARED FOR TAKEOFF ♡';
+  const PILL_TEXT = 'WANTED ACROSS THE GALAXY';
   const buildSprites = () => {
     const pad = 160;
     let c = document.createElement('canvas');
@@ -552,10 +547,10 @@
     tg.addColorStop(0, th.accent); tg.addColorStop(0.5, '#ffffff'); tg.addColorStop(1, th.accent2);
     x.fillStyle = tg;
     x.font = `900 118px ${F_DISPLAY}`;
-    x.fillText('WELCOME', W / 2, 150);
+    x.fillText('HOWDY', W / 2, 150);
     x.fillStyle = '#fff';
     x.font = `900 58px ${F_DISPLAY}`;
-    x.fillText('ABOARD THE ARK', W / 2, 228);
+    x.fillText('FROM THE ARK', W / 2, 228);
     sprite.title = c;
 
     x.font = `900 30px ${F_DISPLAY}`;
@@ -570,7 +565,7 @@
     x.shadowBlur = 36;
     rrect(x, 60, 60, pw, 80, 40); x.fill();
     x.shadowBlur = 0;
-    x.fillStyle = '#fff';
+    x.fillStyle = th.ink;
     x.textAlign = 'center';
     x.font = `900 30px ${F_DISPLAY}`;
     x.fillText(PILL_TEXT, c.width / 2, 111);
@@ -638,7 +633,7 @@
     ctx.textBaseline = 'alphabetic';
     ctx.fillStyle = th.accent;
     ctx.font = `700 26px ${F_MONO}`;
-    tracked(ctx, '✦ PASSPORT CONTROL ✦', W / 2, 262, 6, 'center');
+    tracked(ctx, '✦ FRONTIER CONTROL ✦', W / 2, 262, 6, 'center');
     ctx.drawImage(sprite.title, 0, 250);
     if (k > 0.02) {
       ctx.globalCompositeOperation = 'lighter';
@@ -684,7 +679,7 @@
     const hx = -CW / 2 + PHOTO.x + PHOTO.w - 10, hy = -CH / 2 + PHOTO.y + PHOTO.h - 12;
     if (ctx.createConicGradient) {
       const hg = ctx.createConicGradient(t * 1.5, hx, hy);
-      ['#ff9de2', '#b388ff', '#7ee8fa', '#a0ffcf', '#fff39e', '#ff9de2'].forEach((c2, i, a) => hg.addColorStop(i / (a.length - 1), c2));
+      ['#ffffff', '#8a8a8a', '#e0e0e0', '#5f5f5f', '#c8c8c8', '#ffffff'].forEach((c2, i, a) => hg.addColorStop(i / (a.length - 1), c2));
       ctx.fillStyle = hg;
     } else ctx.fillStyle = th.neb[2];
     ctx.beginPath(); sparklePath(ctx, hx, hy, 38 + k * 8, 0.3); ctx.fill();
@@ -723,7 +718,7 @@
     ctx.font = `700 28px ${F_MONO}`;
     tracked(ctx, `NOW PLAYING — ${trackLabel}`, W / 2, 1602, 4, 'center');
     ctx.fillStyle = rgba('#ffffff', 0.6);
-    ctx.font = `600 26px ${F_DISPLAY}`;
+    ctx.font = `700 22px ${F_MONO}`;
     tracked(ctx, 'ENCY ✦ ARMORY-01', W / 2, 1656, 5, 'center');
 
     // particles on top
@@ -918,18 +913,28 @@
   const camDialog = $('camDialog'), camVideo = $('camVideo'), camErr = $('camErr');
   let camStream = null;
   const stopCam = () => { camStream?.getTracks().forEach((t) => t.stop()); camStream = null; };
-  $('selfieBtn').addEventListener('click', async () => {
+  const camConsent = $('camConsent'), camLive = $('camLive');
+  $('selfieBtn').addEventListener('click', () => {
     if (matchMedia('(pointer: coarse)').matches || !navigator.mediaDevices?.getUserMedia) { $('selfieInput').click(); return; }
+    // simple camera access request: plain explanation first, getUserMedia only fires on the Allow click
     camErr.hidden = true;
+    camConsent.hidden = false;
+    camLive.hidden = true;
     camDialog.showModal();
+  });
+  $('camConsentGo').addEventListener('click', async () => {
+    camErr.hidden = true;
     try {
       camStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user', width: { ideal: 1280 }, height: { ideal: 1600 } }, audio: false });
       camVideo.srcObject = camStream;
+      camConsent.hidden = true;
+      camLive.hidden = false;
     } catch (e) {
-      camErr.textContent = 'Camera blocked or not found. Allow camera access, or use Upload instead.';
+      camErr.textContent = 'Camera blocked or not found. Allow camera in your browser bar, or use Upload instead.';
       camErr.hidden = false;
     }
   });
+  $('camConsentCancel').addEventListener('click', () => camDialog.close());
   $('camCancel').addEventListener('click', () => camDialog.close());
   camDialog.addEventListener('close', stopCam);
   $('camShoot').addEventListener('click', () => {

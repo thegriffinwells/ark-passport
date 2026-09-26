@@ -5,10 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>Ark Passport</title>
   <meta name="description" content="Get your ENCY intergalactic passport. Snap a selfie, get stamped, post the story." />
-  <meta name="theme-color" content="#12031f" />
+  <meta name="theme-color" content="#0d0d0e" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Pacifico&family=Space+Grotesk:wght@500;700&family=Space+Mono:wght@400;700&family=Unbounded:wght@600;900&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=Smokum&family=Space+Grotesk:wght@500;700&family=Space+Mono:wght@400;700&display=swap" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -21,7 +21,7 @@
     <aside class="panel">
       <header class="brand">
         <h1>Ark Passport <span class="spark">✦</span></h1>
-        <p class="sub">Get your papers, space babe.</p>
+        <p class="sub">Get your papers, partner.</p>
       </header>
 
       <section class="block">
@@ -39,15 +39,15 @@
           <input type="file" id="selfieInput" accept="image/*" capture="user" hidden />
         </div>
         <div class="seg" role="radiogroup" aria-label="Photo style">
-          <button class="seg-btn active" data-style="natural" role="radio" aria-checked="true">Natural</button>
-          <button class="seg-btn" data-style="dreamy" role="radio" aria-checked="false">Dreamy</button>
-          <button class="seg-btn" data-style="duotone" role="radio" aria-checked="false">Duotone</button>
+          <button class="seg-btn active" data-style="silver" role="radio" aria-checked="true">Silver</button>
+          <button class="seg-btn" data-style="noon" role="radio" aria-checked="false">Noon</button>
+          <button class="seg-btn" data-style="daguerreotype" role="radio" aria-checked="false">Daguerreotype</button>
         </div>
         <label class="slider-row">
           <span>Zoom</span>
           <input type="range" id="zoom" min="100" max="300" value="100" />
         </label>
-        <p class="hint">Drag your photo on the passport to line it up.</p>
+        <p class="hint">Drag your photo on the passport to line it up. Every style shoots in black &amp; white.</p>
       </section>
 
       <section class="block">
@@ -56,19 +56,19 @@
           <button class="link-btn" id="surpriseBtn">✦ Surprise me</button>
         </div>
         <div class="grid2">
-          <label class="field"><span>First name</span><input id="fFirst" maxlength="18" autocomplete="given-name" placeholder="Luna" /></label>
-          <label class="field"><span>Last name</span><input id="fLast" maxlength="18" autocomplete="family-name" placeholder="Stardust" /></label>
+          <label class="field"><span>First name</span><input id="fFirst" maxlength="18" autocomplete="given-name" placeholder="Jesse" /></label>
+          <label class="field"><span>Last name</span><input id="fLast" maxlength="18" autocomplete="family-name" placeholder="Cassidy" /></label>
         </div>
-        <label class="field"><span>Callsign</span><input id="fCall" maxlength="18" placeholder="Glitterbomb" /></label>
+        <label class="field"><span>Callsign</span><input id="fCall" maxlength="18" placeholder="Dead-Eye" /></label>
         <label class="field"><span>Rank</span><select id="fRank"></select></label>
-        <label class="field"><span>Home planet</span><input id="fPlanet" maxlength="20" list="planetList" placeholder="Club Andromeda" /></label>
+        <label class="field"><span>Home planet</span><input id="fPlanet" maxlength="20" list="planetList" placeholder="Tombstone Station" /></label>
         <datalist id="planetList"></datalist>
       </section>
 
       <section class="block">
         <div class="row-head">
           <h2>Vibe</h2>
-          <span class="meta" id="themeName">Bubblegum</span>
+          <span class="meta" id="themeName">Bone</span>
         </div>
         <div class="themes" id="themes" role="radiogroup" aria-label="Color theme"></div>
       </section>
@@ -111,12 +111,21 @@
 
   <dialog id="camDialog" class="cam">
     <div class="cam-inner">
-      <video id="camVideo" playsinline muted autoplay></video>
-      <div class="cam-ring"></div>
-      <div class="cam-actions">
-        <button class="btn" id="camCancel">Cancel</button>
-        <button class="shutter" id="camShoot" aria-label="Take photo"></button>
-        <span class="cam-spacer"></span>
+      <div class="cam-consent" id="camConsent">
+        <p class="cam-consent-title">Camera access</p>
+        <p class="cam-consent-copy">Allow camera access to take your portrait. The photo stays on this device until you export.</p>
+        <div class="row">
+          <button class="btn" id="camConsentCancel">Cancel</button>
+          <button class="btn primary" id="camConsentGo">Allow camera</button>
+        </div>
+      </div>
+      <div class="cam-live" id="camLive" hidden>
+        <video id="camVideo" playsinline muted autoplay></video>
+        <div class="cam-actions">
+          <button class="btn" id="camCancel">Cancel</button>
+          <button class="shutter" id="camShoot" aria-label="Take photo"></button>
+          <span class="cam-spacer"></span>
+        </div>
       </div>
       <p class="cam-err" id="camErr" hidden></p>
     </div>
