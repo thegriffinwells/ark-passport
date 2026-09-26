@@ -1,137 +1,81 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>Ark Passport</title>
-  <meta name="description" content="Get your ENCY intergalactic passport. Snap a selfie, get stamped, post the story." />
-  <meta name="theme-color" content="#0d0d0e" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=Smokum&family=Space+Grotesk:wght@500;700&family=Space+Mono:wght@400;700&display=swap" />
-  <link rel="stylesheet" href="style.css" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Ark Passport</title>
+<style>
+  html, body { margin: 0; padding: 0; height: 100%; background: #111; overflow: hidden; }
+  #frame { position: fixed; inset: 0; width: 100%; height: 100%; border: 0; display: block; }
+  #vswitch { position: fixed; right: 14px; bottom: 14px; z-index: 99999; font-family: ui-monospace, 'Courier New', monospace; }
+  #vswitch .panel { display: none; position: absolute; right: 0; bottom: 44px; width: 208px; background: #f4f4f2; color: #1a1a1a; border: 2px solid #1a1a1a; border-radius: 10px; box-shadow: 0 8px 24px rgba(0,0,0,.45); padding: 10px; }
+  #vswitch.open .panel { display: block; }
+  #vswitch .panel h2 { margin: 2px 2px 8px; font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: #555; font-weight: 700; }
+  #vswitch .ver { display: block; width: 100%; text-align: left; margin: 4px 0; padding: 9px 10px; font: inherit; font-size: 12px; background: #fff; color: #1a1a1a; border: 1.5px solid #9a9a9a; border-radius: 7px; cursor: pointer; }
+  #vswitch .ver:hover { border-color: #1a1a1a; }
+  #vswitch .ver.active { background: #1a1a1a; color: #f4f4f2; border-color: #1a1a1a; }
+  #vswitch .ver .tag { float: right; font-size: 10px; color: inherit; opacity: .65; }
+  #vswitch > .pill { padding: 10px 14px; font: inherit; font-size: 11px; letter-spacing: .1em; background: #1a1a1a; color: #f4f4f2; border: 2px solid #f4f4f2; border-radius: 999px; cursor: pointer; box-shadow: 0 4px 14px rgba(0,0,0,.4); }
+  #vswitch > .pill:hover { background: #333; }
+</style>
 </head>
 <body>
-  <main class="app">
-    <div class="stage-wrap">
-      <canvas id="stage" width="1080" height="1920" aria-label="Your animated passport story"></canvas>
-      <div class="badge" id="badge" hidden><span class="dot"></span><span id="badgeText">RENDERING</span></div>
-    </div>
+<iframe id="frame" title="Ark Passport" allow="camera; autoplay; fullscreen"></iframe>
+<div id="vswitch">
+  <div class="panel" role="menu" aria-label="Versions">
+    <h2>Ark Passport versions</h2>
+    <button class="ver" data-v="v1" role="menuitem">v1 · Original Space <span class="tag">classic</span></button>
+    <button class="ver" data-v="v2" role="menuitem">v2 · Western Space <span class="tag">new</span></button>
+  </div>
+  <button class="pill" id="pill" aria-haspopup="true" aria-expanded="false">VERSIONS</button>
+</div>
+<script>
+(function () {
+  var DIRS = { v1: 'v1/', v2: 'v2/' };
+  var DEFAULT = 'v2';
+  var frame = document.getElementById('frame');
+  var sw = document.getElementById('vswitch');
+  var pill = document.getElementById('pill');
+  var buttons = Array.prototype.slice.call(sw.querySelectorAll('.ver'));
 
-    <aside class="panel">
-      <header class="brand">
-        <h1>Ark Passport <span class="spark">✦</span></h1>
-        <p class="sub">Get your papers, partner.</p>
-      </header>
+  function pick() {
+    var q = new URLSearchParams(location.search).get('v');
+    if (q && DIRS['v' + q]) return 'v' + q;
+    if (q && DIRS[q]) return q;
+    try {
+      var saved = localStorage.getItem('ark-version');
+      if (saved && DIRS[saved]) return saved;
+    } catch (e) {}
+    return DEFAULT;
+  }
 
-      <section class="block">
-        <h2>Photo</h2>
-        <div class="row">
-          <button class="btn primary" id="selfieBtn">
-            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg>
-            Take selfie
-          </button>
-          <label class="btn" id="uploadBtn">
-            <input type="file" id="photoInput" accept="image/*" hidden />
-            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4M7 9l5-5 5 5M5 20h14"/></svg>
-            Upload
-          </label>
-          <input type="file" id="selfieInput" accept="image/*" capture="user" hidden />
-        </div>
-        <div class="seg" role="radiogroup" aria-label="Photo style">
-          <button class="seg-btn active" data-style="silver" role="radio" aria-checked="true">Silver</button>
-          <button class="seg-btn" data-style="noon" role="radio" aria-checked="false">Noon</button>
-          <button class="seg-btn" data-style="daguerreotype" role="radio" aria-checked="false">Daguerreotype</button>
-        </div>
-        <label class="slider-row">
-          <span>Zoom</span>
-          <input type="range" id="zoom" min="100" max="300" value="100" />
-        </label>
-        <p class="hint">Drag your photo on the passport to line it up. Every style shoots in black &amp; white.</p>
-      </section>
+  function setVersion(id) {
+    if (!DIRS[id]) return;
+    frame.src = DIRS[id];
+    buttons.forEach(function (b) { b.classList.toggle('active', b.getAttribute('data-v') === id); });
+    try { localStorage.setItem('ark-version', id); } catch (e) {}
+  }
 
-      <section class="block">
-        <div class="row-head">
-          <h2>Details</h2>
-          <button class="link-btn" id="surpriseBtn">✦ Surprise me</button>
-        </div>
-        <div class="grid2">
-          <label class="field"><span>First name</span><input id="fFirst" maxlength="18" autocomplete="given-name" placeholder="Jesse" /></label>
-          <label class="field"><span>Last name</span><input id="fLast" maxlength="18" autocomplete="family-name" placeholder="Cassidy" /></label>
-        </div>
-        <label class="field"><span>Callsign</span><input id="fCall" maxlength="18" placeholder="Dead-Eye" /></label>
-        <label class="field"><span>Rank</span><select id="fRank"></select></label>
-        <label class="field"><span>Home planet</span><input id="fPlanet" maxlength="20" list="planetList" placeholder="Tombstone Station" /></label>
-        <datalist id="planetList"></datalist>
-      </section>
+  pill.addEventListener('click', function (e) {
+    e.stopPropagation();
+    var open = sw.classList.toggle('open');
+    pill.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+  document.addEventListener('click', function (e) {
+    if (!sw.contains(e.target)) sw.classList.remove('open');
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') sw.classList.remove('open');
+  });
+  buttons.forEach(function (b) {
+    b.addEventListener('click', function () {
+      setVersion(b.getAttribute('data-v'));
+      sw.classList.remove('open');
+    });
+  });
 
-      <section class="block">
-        <div class="row-head">
-          <h2>Vibe</h2>
-          <span class="meta" id="themeName">Bone</span>
-        </div>
-        <div class="themes" id="themes" role="radiogroup" aria-label="Color theme"></div>
-      </section>
-
-      <section class="block">
-        <h2>Track</h2>
-        <div class="row">
-          <button class="btn icon" id="playBtn" aria-label="Play">
-            <svg viewBox="0 0 24 24" width="18" height="18"><path id="playPath" d="M7 4.5v15l13-7.5z" fill="currentColor"/></svg>
-          </button>
-          <div class="seg seg-2 grow" role="radiogroup" aria-label="Track">
-            <button class="seg-btn track-btn active" data-track="crystals" role="radio" aria-checked="true">Crystals</button>
-            <button class="seg-btn track-btn" data-track="cyclones" role="radio" aria-checked="false">Cyclones</button>
-          </div>
-        </div>
-      </section>
-
-      <section class="block">
-        <div class="row-head">
-          <h2>Export</h2>
-          <span class="meta">story · 1080 × 1920</span>
-        </div>
-        <div class="row">
-          <select id="lenSelect" aria-label="Video length">
-            <option value="10">10 sec</option>
-            <option value="15" selected>15 sec</option>
-            <option value="30">30 sec</option>
-          </select>
-          <button class="btn primary grow" id="exportBtn">Export video</button>
-        </div>
-        <div class="row">
-          <button class="btn grow" id="stillBtn">Save image</button>
-          <button class="btn grow" id="shareBtn" hidden>Share</button>
-          <a class="btn grow" id="downloadLink" hidden>Download again</a>
-        </div>
-        <p class="note" id="exportNote">Video comes with the song baked in.</p>
-      </section>
-    </aside>
-  </main>
-
-  <dialog id="camDialog" class="cam">
-    <div class="cam-inner">
-      <div class="cam-consent" id="camConsent">
-        <p class="cam-consent-title">Camera access</p>
-        <p class="cam-consent-copy">Allow camera access to take your portrait. The photo stays on this device until you export.</p>
-        <div class="row">
-          <button class="btn" id="camConsentCancel">Cancel</button>
-          <button class="btn primary" id="camConsentGo">Allow camera</button>
-        </div>
-      </div>
-      <div class="cam-live" id="camLive" hidden>
-        <video id="camVideo" playsinline muted autoplay></video>
-        <div class="cam-actions">
-          <button class="btn" id="camCancel">Cancel</button>
-          <button class="shutter" id="camShoot" aria-label="Take photo"></button>
-          <span class="cam-spacer"></span>
-        </div>
-      </div>
-      <p class="cam-err" id="camErr" hidden></p>
-    </div>
-  </dialog>
-
-  <script src="lib/mp4-muxer.min.js"></script>
-  <script src="app.js"></script>
+  setVersion(pick());
+})();
+</script>
 </body>
 </html>
